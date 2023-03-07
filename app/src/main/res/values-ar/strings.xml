@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">News</string>
+    <string name="news_app">الأخبار</string>
+    <string name="guide_text">اختر فئة اهتمامك</string>
+    <string name="categories">الفئات</string>
+    <string name="settings">الاعدادات</string>
+    <string name="nav_header_title">الأخبار!</string>
+    <string name="language">اللغة</string>
+    <string name="sports">رياضة</string>
+    <string name="entertainment">ترفيه</string>
+    <string name="health">صحة</string>
+    <string name="business">تجارة</string>
+    <string name="technology">تكنولوجيا</string>
+    <string name="science">علوم</string>
+    <array name="languages">
+        <item>الأنجليزية</item>
+        <item>العربية</item>
+    </array>
+    <string name="content">محتوي الخبر</string>
+</resources>
