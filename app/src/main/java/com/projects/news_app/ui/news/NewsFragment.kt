@@ -38,7 +38,7 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView=binding.newsRecycler
         adapter= ArticlesRecyclerAdapter(articlesList)
-        adapter.onArticleListener=object :ArticlesRecyclerAdapter.OnArticleClickListener
+        adapter.ArticleListener=object :ArticlesRecyclerAdapter.OnArticleClickListener
         {
             override fun onArticleClick(position: Int, article: Article?) {
                 articleContentListener.showArticle(position,article)

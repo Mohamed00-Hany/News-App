@@ -8,14 +8,14 @@ import com.projects.news_app.R
 import com.projects.news_app.api.model.Article
 import com.projects.news_app.databinding.ArticleBinding
 
-class ArticlesRecyclerAdapter(var articlesList:List<Article?>?) : RecyclerView.Adapter<ArticlesRecyclerAdapter.ViewHoldew>() {
+class ArticlesRecyclerAdapter(var articlesList:List<Article?>?) : RecyclerView.Adapter<ArticlesRecyclerAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHoldew {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemBinding=ArticleBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return ViewHoldew(itemBinding)
+        return ViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: ViewHoldew, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article=articlesList?.get(position)
         Glide.with(holder.itemView).load(article?.urlToImage).placeholder(R.drawable.ic_image_placeholder).into(holder.itemBinding.articleImage)
         holder.itemBinding.articleDescription.text=article?.description
@@ -23,11 +23,11 @@ class ArticlesRecyclerAdapter(var articlesList:List<Article?>?) : RecyclerView.A
         holder.itemBinding.articlePublishedAt.text=article?.publishedAt
 
         holder.itemView.setOnClickListener{
-            onArticleListener.onArticleClick(position,article)
+            ArticleListener.onArticleClick(position,article)
         }
     }
 
-    lateinit var onArticleListener:OnArticleClickListener
+    lateinit var ArticleListener:OnArticleClickListener
 
     interface OnArticleClickListener
     {
@@ -37,7 +37,7 @@ class ArticlesRecyclerAdapter(var articlesList:List<Article?>?) : RecyclerView.A
     override fun getItemCount(): Int =articlesList?.size ?: 0
 
 
-    class ViewHoldew(val itemBinding:ArticleBinding):RecyclerView.ViewHolder(itemBinding.root)
+    class ViewHolder(val itemBinding:ArticleBinding):RecyclerView.ViewHolder(itemBinding.root)
 
     fun changeData(articlesList:List<Article?>?)
     {
