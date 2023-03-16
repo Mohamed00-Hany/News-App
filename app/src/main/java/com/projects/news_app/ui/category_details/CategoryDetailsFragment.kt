@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.marginEnd
 import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.projects.news_app.R
@@ -30,6 +31,12 @@ class CategoryDetailsFragment : Fragment() {
     var sourcesList:List<Source?>?=null
     var positionOfSelectedTap=0
     var check=0
+    lateinit var viewModel:CategoryDetailsViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel=ViewModelProvider(this).get(CategoryDetailsViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,15 +49,37 @@ class CategoryDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         if(check==0)
         {
-            loadNewsSources(category)
+            viewModel.loadNewsSources(category)
+            subscribeToLiveData()
         }
         if(check!=0)
         {
             bindSourcesInTabLayout(sourcesList)
         }
 
+    }
+
+    fun subscribeToLiveData() {
+        viewModel.sourcesList.observe(viewLifecycleOwner){
+            sourcesList = it
+            bindSourcesInTabLayout(sourcesList)
+        }
+        viewModel.showLoadingLayout.observe(viewLifecycleOwner){
+            if(it)
+            {
+                showLoadingLayout()
+            }
+            else
+            {
+                hideLoadingLayout()
+            }
+        }
+        viewModel.showErrorLayout.observe(viewLifecycleOwner){
+            showErrorLayout(it)
+        }
     }
 
     override fun onStart() {
@@ -98,8 +127,7 @@ class CategoryDetailsFragment : Fragment() {
         fun setTitle(title:Int)
     }
 
-    companion object
-    {
+    companion object {
         fun getInstance(category:String?):CategoryDetailsFragment
         {
             val categoryDetailsFragment=CategoryDetailsFragment()
@@ -108,46 +136,6 @@ class CategoryDetailsFragment : Fragment() {
         }
     }
 
-    private fun loadNewsSources(category: String?) {
-        showLoadingLayout()
-        ApiManager.getApi().getSources(ApiConstants.apiKey,category?:"").enqueue( object : Callback<SourcesResponse>
-        {
-            override fun onResponse(call: Call<SourcesResponse>, response: retrofit2.Response<SourcesResponse>) {
-
-                if(response.isSuccessful)
-                {
-                    binding.loadingIndicator.visibility=View.GONE
-                    sourcesList=response.body()?.sources
-                    bindSourcesInTabLayout(sourcesList)
-                }
-                else
-                {
-                    val gson=Gson()
-                    val errorResponse=gson.fromJson(response.errorBody()?.string(),SourcesResponse::class.java)
-                    showErrorLayout(errorResponse.message)
-                }
-            }
-
-            override fun onFailure(call: Call<SourcesResponse>, t: Throwable) {
-                showErrorLayout(t.localizedMessage)
-            }
-
-        })
-    }
-
-    private fun showLoadingLayout() {
-        binding.loadingIndicator.visibility=View.VISIBLE
-        binding.errorLayout.visibility=View.GONE
-    }
-
-    private fun showErrorLayout(errorMessage: String?) {
-        binding.loadingIndicator.visibility=View.GONE
-        binding.errorLayout.visibility=View.VISIBLE
-        binding.errorMessage.text=errorMessage
-        binding.tryAgain.setOnClickListener{
-            loadNewsSources(category)
-        }
-    }
 
     private fun bindSourcesInTabLayout(sourcesList:List<Source?>?) {
         sourcesList?.forEach()
@@ -188,8 +176,7 @@ class CategoryDetailsFragment : Fragment() {
         binding.newsSourcesContainer.getTabAt(positionOfSelectedTap)?.select()
     }
 
-    fun changeNewsFragment(source: Source)
-    {
+    fun changeNewsFragment(source: Source) {
         val newsFragment=NewsFragment.getInstance(source)
         newsFragment.articleContentListener=object :NewsFragment.ShowingArticleContent
         {
@@ -199,6 +186,23 @@ class CategoryDetailsFragment : Fragment() {
 
         }
         childFragmentManager.beginTransaction().replace(R.id.news_fragment_container,newsFragment).commit()
+    }
+
+    private fun showLoadingLayout() {
+        binding.loadingIndicator.visibility=View.VISIBLE
+        binding.errorLayout.visibility=View.GONE
+    }
+
+    private fun hideLoadingLayout() {
+        binding.loadingIndicator.visibility=View.GONE
+    }
+
+    private fun showErrorLayout(errorMessage: String?) {
+        binding.errorLayout.visibility=View.VISIBLE
+        binding.errorMessage.text=errorMessage
+        binding.tryAgain.setOnClickListener{
+            viewModel.loadNewsSources(category)
+        }
     }
 
     lateinit var confirmArticleContent:ConfirmShowingArticle
