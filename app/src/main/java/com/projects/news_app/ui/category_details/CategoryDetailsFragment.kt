@@ -71,6 +71,7 @@ class CategoryDetailsFragment : Fragment() {
             if(it)
             {
                 showLoadingLayout()
+                hideErrorLayout()
             }
             else
             {
@@ -190,7 +191,6 @@ class CategoryDetailsFragment : Fragment() {
 
     private fun showLoadingLayout() {
         binding.loadingIndicator.visibility=View.VISIBLE
-        binding.errorLayout.visibility=View.GONE
     }
 
     private fun hideLoadingLayout() {
@@ -203,6 +203,9 @@ class CategoryDetailsFragment : Fragment() {
         binding.tryAgain.setOnClickListener{
             viewModel.loadNewsSources(category)
         }
+    }
+    private fun hideErrorLayout() {
+        binding.errorLayout.visibility=View.GONE
     }
 
     lateinit var confirmArticleContent:ConfirmShowingArticle

@@ -17,10 +17,7 @@ class CategoriesRecyclerAdapter(var CategoriesList:List<Category>?):RecyclerView
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val category=CategoriesList?.get(position)
-        holder.itemBinding.categoryImage.setImageResource(category?.imageId?:0)
-        holder.itemBinding.categoryName.text=holder.itemView.context.getString(category?.title?:0)
-        val backgroundColor=holder.itemView.context.getColor(category?.backgroundColorId?:0)
-        holder.itemBinding.categoryContainer.setCardBackgroundColor(backgroundColor)
+        holder.bind(category)
         itemClickListener?.let {clickListener->
             holder.itemView.setOnClickListener{
                 clickListener.onItemClick(position,category)
@@ -35,6 +32,13 @@ class CategoriesRecyclerAdapter(var CategoriesList:List<Category>?):RecyclerView
     }
 
     class ViewHolder(val itemBinding:ItemCategoryBinding):RecyclerView.ViewHolder(itemBinding.root)
+    {
+        fun bind(category: Category?)
+        {
+            itemBinding.categoryBinding=category
+            itemBinding.invalidateAll()
+        }
+    }
 
     var itemClickListener:OnItemClickListener?=null
 

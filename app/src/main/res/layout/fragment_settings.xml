@@ -1,51 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/pattern">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/language_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginVertical="50dp"
-        android:text="@string/language"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
+    </data>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/language_text"
-        app:cardCornerRadius="3dp"
-        app:contentPadding="2dp"
-        app:cardBackgroundColor="@color/green">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:padding="2dp">
+        android:layout_height="match_parent"
+        android:background="@drawable/pattern">
 
-            <Spinner
-                android:id="@+id/languages_list_container"
+        <TextView
+            android:id="@+id/language_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="50dp"
+            android:text="@string/language"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/language_text"
+            app:cardCornerRadius="3dp"
+            app:contentPadding="2dp"
+            app:cardBackgroundColor="@color/green">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:entries="@array/languages"/>
+                android:background="@color/white"
+                android:padding="2dp">
 
-        </LinearLayout>
+                <Spinner
+                    android:id="@+id/languages_list_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:entries="@array/languages" />
+
+            </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
