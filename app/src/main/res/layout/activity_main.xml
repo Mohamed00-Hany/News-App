@@ -1,65 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity"
-    android:background="@drawable/pattern"
-    android:id="@+id/drawer_layout">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <data>
+
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/action_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_action_bar"
-            app:elevation="0dp">
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/main_tool_bar"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingStart="22dp"
-                android:paddingEnd="30dp"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:titleTextColor="@color/white"
-                    android:text="@string/news_app"
-                    android:textSize="22sp"
-                    android:textColor="@color/white"/>
-
-                <!--<ImageButton
-                    android:id="@+id/search_button"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/ic_search"
-                    android:layout_gravity="end"/> -->
-
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/side_menu"
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu" />
+        tools:context=".ui.main.MainActivity"
+        android:background="@drawable/pattern"
+        android:id="@+id/drawer_layout">
 
-</androidx.drawerlayout.widget.DrawerLayout>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/action_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_action_bar"
+                app:elevation="0dp">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/main_tool_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="30dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:titleTextColor="@color/white"
+                        android:text="@string/news_app"
+                        android:textSize="22sp"
+                        android:textColor="@color/white" />
+
+                    <!--<ImageButton
+                        android:id="@+id/search_button"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/ic_search"
+                        android:layout_gravity="end"/> -->
+
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/side_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/nav_menu" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

@@ -27,9 +27,9 @@ class NewsViewModel : ViewModel() {
                 response: Response<NewsResponse>
             )
             {
+                showLoadingLayout.value=false
                 if(response.isSuccessful)
                 {
-                    showLoadingLayout.value=false
                     articlesList.value = response.body()?.articles
                 }
                 else
@@ -42,6 +42,7 @@ class NewsViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                showLoadingLayout.value=false
                 showErrorLayout.value=t.localizedMessage
             }
 

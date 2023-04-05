@@ -73,6 +73,7 @@ class NewsFragment : Fragment() {
             if(it)
             {
                 showLoadingLayout()
+                hideErrorLayout()
             }
             else
             {
@@ -113,7 +114,6 @@ class NewsFragment : Fragment() {
 
     private fun showLoadingLayout() {
         binding.loadingIndicator.visibility=View.VISIBLE
-        binding.errorLayout.visibility=View.GONE
     }
 
     private fun hideLoadingLayout() {
@@ -121,12 +121,15 @@ class NewsFragment : Fragment() {
     }
 
     private fun showErrorLayout(errorMessage: String?) {
-        binding.loadingIndicator.visibility=View.GONE
         binding.errorLayout.visibility=View.VISIBLE
         binding.errorMessage.text=errorMessage
         binding.tryAgain.setOnClickListener{
             viewModel.loadNews(source)
         }
+    }
+
+    private fun hideErrorLayout() {
+        binding.errorLayout.visibility=View.GONE
     }
 
 }

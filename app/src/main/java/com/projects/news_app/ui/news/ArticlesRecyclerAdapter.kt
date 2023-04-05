@@ -17,11 +17,7 @@ class ArticlesRecyclerAdapter(var articlesList:List<Article?>?) : RecyclerView.A
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article=articlesList?.get(position)
-        Glide.with(holder.itemView).load(article?.urlToImage).placeholder(R.drawable.ic_image_placeholder).into(holder.itemBinding.articleImage)
-        holder.itemBinding.articleDescription.text=article?.description
-        holder.itemBinding.articleTitle?.text=article?.title
-        holder.itemBinding.articlePublishedAt.text=article?.publishedAt
-
+        holder.bind(article)
         holder.itemView.setOnClickListener{
             ArticleListener.onArticleClick(position,article)
         }
@@ -38,6 +34,13 @@ class ArticlesRecyclerAdapter(var articlesList:List<Article?>?) : RecyclerView.A
 
 
     class ViewHolder(val itemBinding:ArticleBinding):RecyclerView.ViewHolder(itemBinding.root)
+    {
+        fun bind(article: Article?)
+        {
+            itemBinding.article=article
+            itemBinding.invalidateAll()
+        }
+    }
 
     fun changeData(articlesList:List<Article?>?)
     {

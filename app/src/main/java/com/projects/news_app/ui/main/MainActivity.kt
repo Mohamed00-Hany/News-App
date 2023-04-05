@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.os.LocaleListCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.projects.news_app.R
@@ -24,8 +25,7 @@ class MainActivity : AppCompatActivity() {
     private val settingsFragment = SettingsFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_main)
 
         categoriesFragment.categoryClickListener= object : CategoriesFragment.OnCategoryClickListener
         {
@@ -78,8 +78,8 @@ class MainActivity : AppCompatActivity() {
 
     fun addSideMenuButton()
     {
-        val toogle=ActionBarDrawerToggle(this,binding.root,binding.mainToolBar,R.string.nav_drawer_open,R.string.nav_drawer_close)
-        binding.root.addDrawerListener(toogle)
+        val toogle=ActionBarDrawerToggle(this,binding.drawerLayout,binding.mainToolBar,R.string.nav_drawer_open,R.string.nav_drawer_close)
+        binding.drawerLayout.addDrawerListener(toogle)
         toogle.drawerArrowDrawable.color = getColor(R.color.white)
         toogle.syncState()
     }
