@@ -107,6 +107,7 @@ class CategoryDetailsFragment : Fragment() {
         {
             titleBinding.setTitle(R.string.technology)
         }
+
         binding.newsSourcesContainer.getTabAt(positionOfSelectedTap)?.select()
     }
 
@@ -146,8 +147,6 @@ class CategoryDetailsFragment : Fragment() {
                     changeNewsFragment(source)
                     positionOfSelectedTap=tab.position
                 }
-
-
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -157,7 +156,6 @@ class CategoryDetailsFragment : Fragment() {
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
-
         })
     }
 
@@ -198,5 +196,4 @@ class CategoryDetailsFragment : Fragment() {
     {
         fun confirm(position: Int, article: Article?)
     }
-
 }

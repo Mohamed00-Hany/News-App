@@ -47,5 +47,4 @@ fun bindSourcesInTabLayout(tabLayout: TabLayout,sourcesList:List<Source?>?) {
         layoutParams.bottomMargin = 6
         tab.view.layoutParams = layoutParams
     }
-    Log.e("","0000000000000000000000000000000000000000000000000000000000")
 }
