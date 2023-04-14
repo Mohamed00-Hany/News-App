@@ -1,5 +1,6 @@
 package com.projects.news_app.ui.category_details
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson

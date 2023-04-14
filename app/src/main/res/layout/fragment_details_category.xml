@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.projects.news_app.ui.category_details.CategoryDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +27,8 @@
             app:tabTextColor="@color/green"
             app:tabSelectedTextColor="@color/white"
             app:tabBackground="@drawable/tab_selector"
-            app:tabIndicatorHeight="0dp" />
+            app:tabIndicatorHeight="0dp"
+            sourcesList="@{vm.sourcesList}"/>
 
         <LinearLayout
             android:id="@+id/error_layout"
