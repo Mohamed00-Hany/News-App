@@ -28,7 +28,6 @@ import retrofit2.Callback
 class CategoryDetailsFragment : Fragment() {
     lateinit var binding:FragmentDetailsCategoryBinding
     var category: String?=null
-    var sourcesList:List<Source?>?=null
     var positionOfSelectedTap=0
     var check=0
     lateinit var viewModel:CategoryDetailsViewModel
@@ -44,6 +43,8 @@ class CategoryDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentDetailsCategoryBinding.inflate(inflater,container,false)
+        binding.lifecycleOwner=viewLifecycleOwner
+        binding.vm=viewModel
         return binding.root
     }
 
@@ -52,21 +53,15 @@ class CategoryDetailsFragment : Fragment() {
 
         if(check==0)
         {
-            viewModel.loadNewsSources(category)
             subscribeToLiveData()
+            viewModel.loadNewsSources(category)
         }
-        if(check!=0)
-        {
-            bindSourcesInTabLayout(sourcesList)
-        }
+
+        selectTab()
 
     }
 
     fun subscribeToLiveData() {
-        viewModel.sourcesList.observe(viewLifecycleOwner){
-            sourcesList = it
-            bindSourcesInTabLayout(sourcesList)
-        }
         viewModel.showLoadingLayout.observe(viewLifecycleOwner){
             if(it)
             {
@@ -83,13 +78,11 @@ class CategoryDetailsFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        check=0
-    }
-
     override fun onResume() {
         super.onResume()
+
+        check=0
+
         if(category=="sports")
         {
             titleBinding.setTitle(R.string.sports)
@@ -114,6 +107,8 @@ class CategoryDetailsFragment : Fragment() {
         {
             titleBinding.setTitle(R.string.technology)
         }
+
+        binding.newsSourcesContainer.getTabAt(positionOfSelectedTap)?.select()
     }
 
     override fun onStop() {
@@ -138,24 +133,16 @@ class CategoryDetailsFragment : Fragment() {
     }
 
 
-    private fun bindSourcesInTabLayout(sourcesList:List<Source?>?) {
-        sourcesList?.forEach()
-        {
-            val tab=binding.newsSourcesContainer.newTab()
-            tab.text=it?.name
-            tab.tag=it
-            binding.newsSourcesContainer.addTab(tab)
-            val layoutParams=LinearLayout.LayoutParams(tab.view.layoutParams)
-            layoutParams.marginStart=20
-            layoutParams.marginEnd=20
-            layoutParams.topMargin=6
-            layoutParams.bottomMargin=6
-            tab.view.layoutParams=layoutParams
-        }
+    private fun selectTab() {
         binding.newsSourcesContainer.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val source=tab?.tag as Source
-                if(tab.position!=positionOfSelectedTap)
+                if(positionOfSelectedTap!=tab.position&&tab.position!=0)
+                {
+                    changeNewsFragment(source)
+                    positionOfSelectedTap=tab.position
+                }
+                if(tab.position==0&&check==0)
                 {
                     changeNewsFragment(source)
                     positionOfSelectedTap=tab.position
@@ -164,17 +151,12 @@ class CategoryDetailsFragment : Fragment() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 val source=tab?.tag as Source
-                if(check==0)
-                {
-                    changeNewsFragment(source)
-                }
+                changeNewsFragment(source)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
-
         })
-        binding.newsSourcesContainer.getTabAt(positionOfSelectedTap)?.select()
     }
 
     fun changeNewsFragment(source: Source) {
@@ -214,5 +196,4 @@ class CategoryDetailsFragment : Fragment() {
     {
         fun confirm(position: Int, article: Article?)
     }
-
 }

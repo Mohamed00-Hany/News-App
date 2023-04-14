@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="article"
+            type="com.projects.news_app.api.model.Article"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:riv_corner_radius="5dp"
-            tools:src="@tools:sample/backgrounds/scenic" />
+            tools:src="@tools:sample/backgrounds/scenic"
+            imageUrl="@{article.urlToImage}"/>
 
         <TextView
             android:id="@+id/article_title"
@@ -32,6 +35,7 @@
             android:textSize="14sp"
             android:autoLink="all"
             android:textColorLink="@color/blue"
+            android:text="@{article.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/article_image"
@@ -48,6 +52,7 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:layout_marginTop="5dp"
+            android:text="@{article.description}"
             tools:text="hello hello hello hello \nhello hello hello hello hello" />
 
         <TextView
@@ -56,6 +61,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/gray"
             android:textSize="14sp"
+            android:text="@{article.publishedAt}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/article_description"
             android:layout_marginTop="8dp"
