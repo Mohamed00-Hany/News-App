@@ -81,8 +81,6 @@ class CategoryDetailsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        check=0
-
         if(category=="sports")
         {
             titleBinding.setTitle(R.string.sports)
@@ -109,6 +107,8 @@ class CategoryDetailsFragment : Fragment() {
         }
 
         binding.newsSourcesContainer.getTabAt(positionOfSelectedTap)?.select()
+
+        check=0
     }
 
     override fun onStop() {
@@ -151,7 +151,10 @@ class CategoryDetailsFragment : Fragment() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 val source=tab?.tag as Source
-                changeNewsFragment(source)
+                if(check==0)
+                {
+                    changeNewsFragment(source)
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
