@@ -58,7 +58,6 @@ class CategoryDetailsFragment : Fragment() {
         }
 
         selectTab()
-
     }
 
     fun subscribeToLiveData() {
