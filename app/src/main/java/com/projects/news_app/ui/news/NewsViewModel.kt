@@ -1,15 +1,19 @@
 package com.projects.news_app.ui.news
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.projects.news_app.api.ApiConstants
 import com.projects.news_app.api.ApiManager
 import com.projects.news_app.api.model.Article
 import com.projects.news_app.api.model.NewsResponse
 import com.projects.news_app.api.model.Source
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 
 class NewsViewModel : ViewModel() {
@@ -19,33 +23,52 @@ class NewsViewModel : ViewModel() {
     val showErrorLayout=MutableLiveData<String>()
 
     fun loadNews(source: Source?) {
-        showLoadingLayout.value=true
-        ApiManager.getApi().getNews(ApiConstants.apiKey,source?.id?:"").enqueue(object :
-            Callback<NewsResponse> {
-            override fun onResponse(
-                call: Call<NewsResponse>,
-                response: Response<NewsResponse>
-            )
+        viewModelScope.launch {
+            showLoadingLayout.value=true
+            try {
+                val response=ApiManager.getApi().getNews(ApiConstants.apiKey,source?.id?:"")
+                showLoadingLayout.value=false
+                articlesList.value=response.articles
+            }
+            catch (e:HttpException)
             {
                 showLoadingLayout.value=false
-                if(response.isSuccessful)
-                {
-                    articlesList.value = response.body()?.articles
-                }
-                else
-                {
-                    val gson= Gson()
-                    val errorResponse=gson.fromJson(response.errorBody()?.string(), NewsResponse::class.java)
-                    showErrorLayout.value=errorResponse.message ?: ""
-                }
-
+                val errorResponse=Gson().fromJson(e.response()?.errorBody()?.string(),NewsResponse::class.java)
+                showErrorLayout.value=errorResponse.message ?: ""
             }
-
-            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+            catch (e:Exception)
+            {
                 showLoadingLayout.value=false
-                showErrorLayout.value=t.localizedMessage
+                showErrorLayout.value=e.localizedMessage
             }
 
-        })
+        }
+//            .enqueue(object :
+//            Callback<NewsResponse> {
+//            override fun onResponse(
+//                call: Call<NewsResponse>,
+//                response: Response<NewsResponse>
+//            )
+//            {
+//                showLoadingLayout.value=false
+//                if(response.isSuccessful)
+//                {
+//                    articlesList.value = response.body()?.articles
+//                }
+//                else
+//                {
+//                    val gson= Gson()
+//                    val errorResponse=gson.fromJson(response.errorBody()?.string(), NewsResponse::class.java)
+//                    showErrorLayout.value=errorResponse.message ?: ""
+//                }
+//
+//            }
+//
+//            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+//                showLoadingLayout.value=false
+//                showErrorLayout.value=t.localizedMessage
+//            }
+//
+//        })
     }
 }

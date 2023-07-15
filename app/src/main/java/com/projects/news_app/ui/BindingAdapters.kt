@@ -1,15 +1,12 @@
 package com.projects.news_app.ui
 
-import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TableLayout
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.Tab
 import com.projects.news_app.R
 import com.projects.news_app.api.model.Source
 
