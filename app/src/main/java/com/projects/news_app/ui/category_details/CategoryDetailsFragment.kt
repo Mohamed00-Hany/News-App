@@ -60,7 +60,7 @@ class CategoryDetailsFragment : Fragment() {
         selectTab()
     }
 
-    fun subscribeToLiveData() {
+    private fun subscribeToLiveData() {
         viewModel.showLoadingLayout.observe(viewLifecycleOwner){
             if(it)
             {
