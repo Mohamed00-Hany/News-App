@@ -1,15 +1,16 @@
 package com.projects.news_app.ui.main
 
-import android.content.res.Resources
+import android.app.LocaleManager
 import android.os.Bundle
+import android.os.LocaleList
+import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
+import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.projects.news_app.R
 import com.projects.news_app.api.model.Article
 import com.projects.news_app.databinding.ActivityMainBinding
@@ -17,16 +18,19 @@ import com.projects.news_app.ui.categories.CategoriesFragment
 import com.projects.news_app.ui.category_details.CategoryDetailsFragment
 import com.projects.news_app.ui.news.ArticleContentFragment
 import com.projects.news_app.ui.settings.SettingsFragment
-import java.util.*
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val categoriesFragment=CategoriesFragment()
-    private val settingsFragment = SettingsFragment()
+    private lateinit var settingsFragment:SettingsFragment
+    private lateinit var currentLanguage:String
+    private var settingsFragmentIsActive=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= DataBindingUtil.setContentView(this,R.layout.activity_main)
-
+        currentLanguage=ConfigurationCompat.getLocales(this.resources.configuration).get(0)?.language ?: "en"
         categoriesFragment.categoryClickListener= object : CategoriesFragment.OnCategoryClickListener
         {
             override fun onCategoryClick(category: String?, title: String?) {
@@ -62,18 +66,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        settingsFragment.titleBinding=object : SettingsFragment.BindTitle
-        {
-            override fun setTitle(title: Int) {
-                binding.title.text=getString(title)
-            }
-        }
-
         showFragment(categoriesFragment,false)
 
         addSideMenuButton()
         initSideMenuClicks()
-        initLanguages(settingsFragment)
     }
 
     fun addSideMenuButton()
@@ -99,7 +95,24 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_settings->
                 {
-                    showFragment(settingsFragment, true)
+                    if (!settingsFragmentIsActive)
+                    {
+                        settingsFragment= SettingsFragment.getInstance(currentLanguage)
+                        settingsFragment.titleBinding=object : SettingsFragment.BindTitle
+                        {
+                            override fun setTitle(title: Int) {
+                                binding.title.text=getString(title)
+                            }
+                        }
+                        initLanguages(settingsFragment,currentLanguage?:"en")
+                        showFragment(settingsFragment, true)
+                        settingsFragmentIsActive=true
+                        settingsFragment.onFragmentDestroyedListener=object :SettingsFragment.OnFragmentDestroyed{
+                            override fun onDestroyed() {
+                                settingsFragmentIsActive=false
+                            }
+                        }
+                    }
                 }
             }
             binding.drawerLayout.close()
@@ -107,27 +120,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initLanguages(fragment:SettingsFragment)
+    fun initLanguages(fragment:SettingsFragment,currentLanguage:String)
     {
         fragment.onLanguageListener=object :SettingsFragment.OnLanguageSelectedListener
         {
             override fun onLanguageSelected(position: Int) {
-                if (position==0&&this@MainActivity.getString(R.string.news_app)=="الأخبار")
+                if (position==0&&currentLanguage=="ar")
                 {
                     for(i in 0 until supportFragmentManager.backStackEntryCount )
                     {
                         supportFragmentManager.popBackStack()
                     }
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
+
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en-US"))
                 }
-                else if(position==1&&this@MainActivity.getString(R.string.news_app)=="News")
+                else if(position==1&&currentLanguage=="en")
                 {
                     for(i in 0 until supportFragmentManager.backStackEntryCount )
                     {
                         supportFragmentManager.popBackStack()
                     }
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ar"))
+
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ar-EG"))
                 }
+                Log.e("",currentLanguage?:"00000000")
             }
         }
     }
