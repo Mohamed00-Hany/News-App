@@ -1,25 +1,19 @@
 package com.projects.news_app.ui.settings
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.projects.news_app.R
 import com.projects.news_app.databinding.FragmentSettingsBinding
-import java.text.FieldPosition
-import java.util.Locale
 
 
 class SettingsFragment : Fragment() {
     lateinit var binding:FragmentSettingsBinding
+    private lateinit var currentLanguage:String
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,6 +21,15 @@ class SettingsFragment : Fragment() {
     ): View? {
         binding= FragmentSettingsBinding.inflate(inflater,container,false)
         return binding.root
+    }
+
+    companion object{
+        fun getInstance(currentLanguage:String):SettingsFragment
+        {
+            val settingsFragment=SettingsFragment()
+            settingsFragment.currentLanguage=currentLanguage
+            return settingsFragment
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,15 +51,6 @@ class SettingsFragment : Fragment() {
 
     private fun initLanguagesList()
     {
-
-        if(requireActivity().getString(R.string.news_app)=="الأخبار")
-        {
-            binding.languagesListContainer.setSelection(1)
-        }
-        else
-        {
-            binding.languagesListContainer.setSelection(0)
-        }
         binding.languagesListContainer.onItemSelectedListener=object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -74,6 +68,18 @@ class SettingsFragment : Fragment() {
 
         }
 
+        if(currentLanguage=="ar")
+        {
+            binding.languagesListContainer.setSelection(1)
+            Log.e("","666666666666666666")
+
+        }
+        else
+        {
+            binding.languagesListContainer.setSelection(0)
+            Log.e("","555555555555555555")
+        }
+
     }
 
     var onLanguageListener:OnLanguageSelectedListener?=null
@@ -83,4 +89,15 @@ class SettingsFragment : Fragment() {
         fun onLanguageSelected(position: Int)
     }
 
+    var onFragmentDestroyedListener:OnFragmentDestroyed?=null
+
+    interface OnFragmentDestroyed
+    {
+        fun onDestroyed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onFragmentDestroyedListener?.onDestroyed()
+    }
 }
