@@ -16,6 +16,7 @@
     <string name="nav_drawer_open">open</string>
     <string name="nav_drawer_close">close</string>
     <string name="content">article content</string>
+    <string name="try_again">try again</string>
     <array name="languages">
         <item>English</item>
         <item>Arabic</item>
