@@ -8,9 +8,9 @@ import com.projects.news_app.api.ApiConstants
 import com.projects.news_app.api.ApiManager
 import com.projects.news_app.api.model.Source
 import com.projects.news_app.api.model.SourcesResponse
+import com.projects.news_app.repositories.sources.SourcesRemoteDataSourceImpl
+import com.projects.news_app.repositories.sources.SourcesRepositoryImpl
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
 
 class CategoryDetailsViewModel : ViewModel() {
@@ -18,14 +18,18 @@ class CategoryDetailsViewModel : ViewModel() {
     val sourcesList=MutableLiveData<List<Source?>?>()
     val showLoadingLayout=MutableLiveData<Boolean>()
     val showErrorLayout=MutableLiveData<String>()
+    private val webServices=ApiManager.getApi()
+    private val sourcesRemoteDataSource=SourcesRemoteDataSourceImpl(webServices)
+    private val sourcesRepository=SourcesRepositoryImpl(sourcesRemoteDataSource)
+
 
     fun loadNewsSources(category: String?) {
         viewModelScope.launch {
             showLoadingLayout.value = true
             try {
-                val response = ApiManager.getApi().getSources(ApiConstants.apiKey, category ?: "")
+                val sources = sourcesRepository.getSourcesByCategoryId(ApiConstants.apiKey,category ?: "")
                 showLoadingLayout.value = false
-                sourcesList.value = response.sources
+                sourcesList.value = sources
             } catch (e: HttpException) {
                 showLoadingLayout.value = false
                 val errorResponse = Gson().fromJson(
