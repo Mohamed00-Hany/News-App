@@ -51,6 +51,15 @@ class SettingsFragment : Fragment() {
 
     private fun initLanguagesList()
     {
+        if(currentLanguage=="ar")
+        {
+            binding.languagesListContainer.setSelection(1)
+        }
+        else
+        {
+            binding.languagesListContainer.setSelection(0)
+        }
+
         binding.languagesListContainer.onItemSelectedListener=object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -67,19 +76,6 @@ class SettingsFragment : Fragment() {
             }
 
         }
-
-        if(currentLanguage=="ar")
-        {
-            binding.languagesListContainer.setSelection(1)
-            Log.e("","666666666666666666")
-
-        }
-        else
-        {
-            binding.languagesListContainer.setSelection(0)
-            Log.e("","555555555555555555")
-        }
-
     }
 
     var onLanguageListener:OnLanguageSelectedListener?=null

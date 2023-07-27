@@ -10,6 +10,8 @@ import com.projects.news_app.api.ApiManager
 import com.projects.news_app.api.model.Article
 import com.projects.news_app.api.model.NewsResponse
 import com.projects.news_app.api.model.Source
+import com.projects.news_app.repositories.news.NewsRemoteDataSourceImpl
+import com.projects.news_app.repositories.news.NewsRepositoryImpl
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,14 +23,16 @@ class NewsViewModel : ViewModel() {
     val articlesList=MutableLiveData<List<Article?>?>()
     val showLoadingLayout=MutableLiveData<Boolean>()
     val showErrorLayout=MutableLiveData<String>()
-
+    private val webServices=ApiManager.getApi()
+    private val newsRemoteDataSource=NewsRemoteDataSourceImpl(webServices)
+    val newsRepository=NewsRepositoryImpl(newsRemoteDataSource)
     fun loadNews(source: Source?) {
         viewModelScope.launch {
             showLoadingLayout.value=true
             try {
-                val response=ApiManager.getApi().getNews(ApiConstants.apiKey,source?.id?:"")
+                val news=newsRepository.getNewsBySourceId(ApiConstants.apiKey,source?.id ?: "")
                 showLoadingLayout.value=false
-                articlesList.value=response.articles
+                articlesList.value=news
             }
             catch (e:HttpException)
             {

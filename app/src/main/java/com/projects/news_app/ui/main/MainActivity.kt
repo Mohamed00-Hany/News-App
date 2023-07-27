@@ -143,7 +143,6 @@ class MainActivity : AppCompatActivity() {
 
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ar-EG"))
                 }
-                Log.e("",currentLanguage?:"00000000")
             }
         }
     }
