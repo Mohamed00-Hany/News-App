@@ -1,15 +1,17 @@
-# News-App
-This app show news to you it has categories and each category has sources to get news from it so you can choose any category and any source to read it's news and you can read the article details when click on it also you can change the language from/to english or arabic
-## Topics
-#### Fragments
-#### Recycler View
-#### Retrofit
-#### MVVM
-#### Live Data
-#### Data binding
-#### Kotlin Coroutines
-#### Repository pattern
-## Images
+# **News-App**
+This app show news to you it has categories and each category has sources to get news from it so you can choose any category and any source to read it's news and you can read the article details when click on it also you can change the language from/to english or arabic.
+
+## **Topics**
++ ##### Fragments
++ ##### Recycler View
++ ##### Retrofit
++ ##### MVVM
++ ##### Live Data
++ ##### Data binding
++ ##### Kotlin Coroutines
++ ##### Repository pattern
+
+## **Images**
 ![splash](https://github.com/Mohamed00-Hany/News-App/assets/123842448/8afbd2a0-c10d-4285-819a-02509a1165e9)
 ![home](https://github.com/Mohamed00-Hany/News-App/assets/123842448/b08eb167-d265-49c6-8daf-b808fb00fb3c)
 ![home –categorized](https://github.com/Mohamed00-Hany/News-App/assets/123842448/29777af2-6098-432c-9482-9381d44f42fd)
