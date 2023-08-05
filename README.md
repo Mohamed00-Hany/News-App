@@ -7,9 +7,9 @@ This app show news to you it has categories and each category has sources to get
 + ##### Retrofit
 + ##### MVVM
 + ##### Live Data
-+ ##### Data binding
++ ##### Data Binding
 + ##### Kotlin Coroutines
-+ ##### Repository pattern
++ ##### Repository Pattern
 
 ## **Images**
 ![splash](https://github.com/Mohamed00-Hany/News-App/assets/123842448/8afbd2a0-c10d-4285-819a-02509a1165e9)
